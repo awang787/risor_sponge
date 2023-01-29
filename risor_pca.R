@@ -43,32 +43,4 @@ pca.ggplot <- ggplot(data = sgfs_scores, aes(x = PC1, y = PC2)) +
   ylab("PC2 (27.44%)") 
 
 pca.ggplot
-ggsave("figures/pca_notuni.pdf", width = 8, height = 6)
-
-# bipartite graph creation
-Risor <- read.csv("data/Risor_Master_EditVer.csv", fileEncoding="UTF-8-BOM") # read file in without adding random "." in front of column 1
-Risor <- Risor %>% rename(Depth_ft = Depth..ft., SL_mm = SL..mm., TL_mm = TL..mm.) #rename cols
-Risor_df <- data.frame(table(Risor$FishSpecies, Risor$SpongeGenus)) #make the columns into a table and dataframe
-Risor_df2 <- spread(data = Risor_df, Var1, Freq) # put data into a table format
-Risor_df3 <- Risor_df2[,-c(9)]
-
-rownames(Risor_df3) = Risor_df3$Var2
-Risor_df3 <- Risor_df3[-1]
-
-Risor_mat <- as.matrix(Risor_df3)
-spe_color <- c("plum", "orange", "yellow", "green", "red", "pink", "turquoise")
-plotweb(Risor_mat, method = "cca", labsize = 1.2, arrow = "down", col.interaction = c(rep(spe_color[1],7),rep(spe_color[2],7),rep(spe_color[3],7),rep(spe_color[4],7),rep(spe_color[5],7),rep(spe_color[6],7),rep(spe_color[7],7)), 
-        high.lab.dis = 0.07, low.lab.dis = 0.07)
-
-nested(Risor_mat) #calculated a nestedness metric
-nested(Risor_mat[-1,]) # removing Agelas because all values are 0
-nested(Risor_mat)
-clustering_tm(Risor_mat)
-NOS(Risor_mat)
-NOS(Risor_mat[-1,])
-computeModules(Risor_mat, method = "Beckett")
-computeModules(Risor_mat[-1,], method = "Beckett")
-#metaComputeModules(Risor_mat)
-
-
-table(Risor$FishSpecies)
+ggsave("figures/pca_risor.pdf", width = 8, height = 6)

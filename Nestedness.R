@@ -61,7 +61,6 @@ nestedness <- function(x){
   l <- list()
   for (i in 1:length(x)){
     l[[i]]<- unname(nested(x[[i]]))
-    #if (is.na(l[[i]])){ l[[i]]<- 0} # if the matrix is all one value then it's NA?  
   }
   return (l)
 }
@@ -127,7 +126,7 @@ ris.nest.hist <- make.hist(ris.nest) +
   theme(text = element_text(size = 16)) +
   ggtitle("A") # turns out to be pretty normal?
 ris.nest.hist 
-#ggsave("figures/risnullhist.pdf", ris.hist, width = 8, height = 6)
+
 ris.percentile <- get.percentile(ris.nest)
 ris.percentile(ris) # last attempt obtained 0.192; 19th percentile
 
@@ -137,7 +136,7 @@ ris.mod.hist <- mod.hist(ris.mod) +
   theme(text = element_text(size = 16)) +
   ggtitle("D")
 ris.mod.hist
-#ggsave("figures/rismodhist.pdf", ris.mod.hist, width = 8, height = 6)
+
 ris.mod.per <- get.percentile(ris.mod)
 ris.mod.per(rmod) # last attempt 0.997 
 
@@ -173,16 +172,16 @@ ris.mod.hist.bi2
 
 multi.null <- ris.nest.hist + ris.hist.bi + ris.hist.bi2
 multi.null
-ggsave("figures/multi.nullnest.png", multi.null, width = 10, height = 6)
+#ggsave("figures/multi.nullnest.png", multi.null, width = 10, height = 6)
 
 multi.mod <- ris.mod.hist + ris.mod.hist.bi + ris.mod.hist.bi2
 multi.mod
-ggsave("figures/multi.nullmod.png", multi.mod, width = 10, height = 6)
+#ggsave("figures/multi.nullmod.png", multi.mod, width = 10, height = 6)
 
 
 all.nest.mod <- ris.nest.hist + ris.hist.bi + ris.hist.bi2 + 
   ris.mod.hist + ris.mod.hist.bi + ris.mod.hist.bi2
 
 all.nest.mod
-ggsave("figures/all.nest.mod.png", all.nest.mod, width = 8, height = 5)
+#ggsave("figures/all.nest.mod.png", all.nest.mod, width = 8, height = 5)
 
