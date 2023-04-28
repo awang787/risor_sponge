@@ -8,13 +8,6 @@ Risor <- read.csv("data/Risor_Master.csv", fileEncoding="UTF-8-BOM") # read file
 Risor <- Risor %>% rename(Depth_ft = Depth..ft., SL_mm = SL..mm., TL_mm = TL..mm.) #rename cols
 a <- Risor %>% filter(FishSpecies != "xx") %>% filter(SpongeGenus != "tunicate")
 
-# create abundance matrix 
-abu.mat <- function(x){
-  mat <- spread(data.frame(table(x$SpongeGenus, x$FishSpecies)), Var2, Freq)
-  rownames(mat) <- mat$Var1
-  mat <- as.matrix(mat[-1])
-}
-
 # create binary matrix 
 bin.mat <- function(x){
   mat <- spread(data.frame(table(x$SpongeGenus, x$FishSpecies)), Var2, Freq)
@@ -33,9 +26,8 @@ ifallsame <- function(y){
   return (y)
 }
 
-# given a binary matrix, randomize the contents within; treat each interaction
-# between genus and species as independent? are they really independent? 
-# unsure how efficient/correct this is but it works, kinda 
+# given a binary matrix, randomize the contents within; 
+# treating each interaction between genus and species as independent 
 nullmod <- function(y){
   for(i in 1:nrow(y)){ 
     for(j in 1:ncol(y)){ 
@@ -88,26 +80,36 @@ make.hist <- function(y){
   return (hist)
 }
 
+make.hist2 <- function(y){
+  df <- as.data.frame(unlist(y))
+  df <- df %>% rename(nestedness = `unlist(y)` )
+  hist <- ggplot(data = df, aes(nestedness)) + 
+    geom_histogram(binwidth = 2, color = "black", fill = "steelblue", ) + 
+    geom_vline(aes(xintercept=ris),
+               color="red", linetype="dashed", size=1) + 
+    theme_classic()
+  return (hist)
+}
+
 # can't use the same get.hist() as nestedness bc way different in scale
 mod.hist <- function(y){
   df <- as.data.frame(unlist(y))
   df <- df %>% rename(modularity = `unlist(y)` )
   hist <- ggplot(data = df, aes(modularity)) + 
-    geom_histogram(binwidth = 0.05, color = "black", fill = "steelblue") +
+    geom_histogram(binwidth = 0.025, color = "black", fill = "steelblue") +
     geom_vline(aes(xintercept=rmod),
                color="red", linetype="dashed", size=1) +
     theme_classic()
 }
 
-make.hist2 <- function(y){
+mod.hist2 <- function(y){
   df <- as.data.frame(unlist(y))
   df <- df %>% rename(modularity = `unlist(y)` )
   hist <- ggplot(data = df, aes(modularity)) + 
-    geom_histogram(binwidth = 5, color = "black", fill = "steelblue") + 
+    geom_histogram(binwidth = 0.005, color = "black", fill = "steelblue") +
     geom_vline(aes(xintercept=rmod),
                color="red", linetype="dashed", size=1) +
     theme_classic()
-  return (hist)
 }
 
 # function to get another function to calculate percentile 
@@ -124,64 +126,40 @@ ris <- nested(ris.bin)
 ris.nest <- nestedness(ris.null)
 ris.nest.hist <- make.hist(ris.nest) +
   theme(text = element_text(size = 16)) +
-  ggtitle("A") # turns out to be pretty normal?
+  ggtitle("a)") 
 ris.nest.hist 
 
 ris.percentile <- get.percentile(ris.nest)
-ris.percentile(ris) # last attempt obtained 0.192; 19th percentile
+ris.percentile(ris) 
 
 rmod <- computeModules(ris.bin)@likelihood
 ris.mod <- get.mods(ris.null)
 ris.mod.hist <- mod.hist(ris.mod) + 
   theme(text = element_text(size = 16)) +
-  ggtitle("D")
+  ggtitle("b)")
 ris.mod.hist
 
 ris.mod.per <- get.percentile(ris.mod)
-ris.mod.per(rmod) # last attempt 0.997 
+ris.mod.per(rmod) 
+
+multi_randnull <- ris.nest.hist + ris.mod.hist
+multi_randnull
 
 # risor null model using shuffle.web
 bipartite_null <- nullmodel(ris.bin, method = "shuffle.web")
 ris.nest.bi <- nestedness(bipartite_null)
-ris.hist.bi <- make.hist(ris.nest.bi) +
+ris.hist.bi <- make.hist2(ris.nest.bi) +
   theme(text = element_text(size = 16)) +
-  ggtitle("B")# more skewed than my own function
+  ggtitle("a)")# more skewed than random function
 ris.hist.bi
 ris.percentile.bi <- get.percentile(ris.nest.bi)
-ris.percentile.bi(ris) # last attempt 0.368
+ris.percentile.bi(ris) 
 ris.mod.bi <- get.mods(bipartite_null)
-ris.mod.hist.bi <- mod.hist(ris.mod.bi) + 
+ris.mod.hist.bi <- mod.hist2(ris.mod.bi) + 
   theme(text = element_text(size = 16)) +
-  ggtitle("E")
+  ggtitle("b)")
 ris.mod.hist.bi
 
-# risor null model using mgen
-bipartite_null2 <- nullmodel(ris.bin, method = "mgen")
-ris.nest.bi2 <- nestedness(bipartite_null2)
-ris.hist.bi2 <- make.hist(ris.nest.bi2) +
-  theme(text = element_text(size = 16)) +
-  ggtitle("C")#  skewed but less so than shuffle.web
-ris.hist.bi2
-ris.percentile.bi2 <- get.percentile(ris.nest.bi2)
-ris.percentile.bi2(ris) # last attempt 0.254
-ris.mod.bi2 <- get.mods(bipartite_null2)
-ris.mod.hist.bi2 <- mod.hist(ris.mod.bi2) + 
-  theme(text = element_text(size = 16)) +
-  ggtitle("F")
-ris.mod.hist.bi2
-
-multi.null <- ris.nest.hist + ris.hist.bi + ris.hist.bi2
-multi.null
-#ggsave("figures/multi.nullnest.png", multi.null, width = 10, height = 6)
-
-multi.mod <- ris.mod.hist + ris.mod.hist.bi + ris.mod.hist.bi2
-multi.mod
-#ggsave("figures/multi.nullmod.png", multi.mod, width = 10, height = 6)
-
-
-all.nest.mod <- ris.nest.hist + ris.hist.bi + ris.hist.bi2 + 
-  ris.mod.hist + ris.mod.hist.bi + ris.mod.hist.bi2
-
-all.nest.mod
-#ggsave("figures/all.nest.mod.png", all.nest.mod, width = 8, height = 5)
+multi_shuffle <- ris.hist.bi + ris.mod.hist.bi
+multi_shuffle
 
