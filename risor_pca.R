@@ -50,4 +50,4 @@ pca.ggplot <- ggplot(data = sgfs_scores, aes(x = PC1, y = PC2)) +
   ylab("PC2 (27.44%)") 
 
 pca.ggplot
-#ggsave("figures/pca_risor.pdf", width = 8, height = 6)
+#ggsave("figures/pca_spongefish.pdf", width = 10, height = 10)
