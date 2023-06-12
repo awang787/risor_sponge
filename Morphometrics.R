@@ -32,14 +32,14 @@ pca.ggplot.scales <- ggplot(data = scales_scores, aes(x = PC1, y = PC2)) +
   scale_color_manual(values=spe_colors) + 
   scale_fill_manual(values =spe_colors) +
   geom_segment(data = scales_loadings, aes(x=0, xend = PC1, y= 0, yend = PC2), lwd=0.1)+
-  geom_text(data = scales_loadings, aes(x=PC1*1.1, y=PC2*1.1, label = trait), size = 3.8) +
+  geom_text(data = scales_loadings, aes(x=PC1*1.1, y=PC2*1.1, label = trait), size = 5.5) +
   theme_bw() + 
   theme_classic() + 
-  theme(text = element_text(size = 14)) +
+  theme(text = element_text(size = 16)) +
   theme(legend.position = "top") +
   labs(color = expression(~italic("Risor")~ "lineages")) +
   xlab("PC1 (28.67%)") + 
   ylab("PC2 (21.64%)") 
 
 pca.ggplot.scales
-#ggsave("figures/pca_scales.pdf", width = 10, height = 10)
+#ggsave("figures/pca_scales.pdf", width = 8, height = 8)

@@ -33,13 +33,14 @@ pca_morph <- ggplot(data = morph_scores, aes(x = PC1, y = PC2)) +
   scale_color_manual(values=spe_colors) + 
   scale_fill_manual(values =spe_colors) +
   geom_segment(data = morph_loadings, aes(x=0, xend = PC1/3, y= 0, yend = PC2/3), lwd=0.1)+
-  geom_text(data = morph_loadings, aes(x=PC1/3, y=PC2/3, label = trait), size = 4.5) +
+  geom_text(data = morph_loadings, aes(x=PC1/3, y=PC2/3, label = trait), size = 5.5) +
   theme_bw() +
+  theme(text = element_text(size = 16)) +
   theme(legend.position = "top") +
   labs(color = expression(~italic("Risor")~ "Lineages")) +
   xlab("PC1 (43.73%)") + 
   ylab("PC2 (34.90%)") 
 
 pca_morph
-#ggsave("figures/pca_sponge_morphology_si.pdf", width=10, height=10)
+#ggsave("figures/pca_sponge_morphology_si.pdf", width=8, height=8)
 

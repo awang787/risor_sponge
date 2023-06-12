@@ -41,8 +41,8 @@ pca.ggplot <- ggplot(data = sgfs_scores, aes(x = PC1, y = PC2)) +
   scale_color_manual(values=spe_colors) + 
   scale_fill_manual(values =spe_colors) +
   geom_segment(data = sgfs_loadings, aes(x=0, xend = PC1/2.75, y= 0, yend = PC2/2.75), lwd=0.1)+
-  geom_text(data = sgfs_loadings, aes(x=PC1/3, y=PC2/3, label = trait, fontface = "italic"), size = 4.5) +
-  theme_bw() +  
+  geom_text(data = sgfs_loadings, aes(x=PC1/3, y=PC2/3, label = trait, fontface = "italic"), size = 5.5) +
+  theme_bw() + # theme_classic() + 
   theme(text = element_text(size = 16)) +
   theme(legend.position = "top") +
   labs(color = expression(~italic("Risor")~ "lineages")) +
