@@ -144,6 +144,7 @@ ris.mod.per(rmod)
 
 multi_randnull <- ris.nest.hist + ris.mod.hist
 multi_randnull
+#ggsave("figures/multi_randnull.pdf", multi_randnull, width=14, height=6)
 
 # risor null model using shuffle.web
 bipartite_null <- nullmodel(ris.bin, method = "shuffle.web")
@@ -162,4 +163,4 @@ ris.mod.hist.bi
 
 multi_shuffle <- ris.hist.bi + ris.mod.hist.bi
 multi_shuffle
-
+#ggsave("figures/multi_shuffle.pdf", multi_shuffle, width=14, height=6)
