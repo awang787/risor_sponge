@@ -160,6 +160,8 @@ ris.mod.hist.bi <- mod.hist2(ris.mod.bi) +
   theme(text = element_text(size = 16)) +
   ggtitle("b)")
 ris.mod.hist.bi
+ris.mod.percentile.bi <- get.percentile(ris.mod.bi)
+ris.mod.percentile.bi(rmod) 
 
 multi_shuffle <- ris.hist.bi + ris.mod.hist.bi
 multi_shuffle
