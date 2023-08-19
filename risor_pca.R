@@ -4,16 +4,11 @@ library(tidyverse)
 Risor <- read.csv("data/Risor_Master.csv", fileEncoding="UTF-8-BOM") # read file in without adding random "." in front of column 1
 Risor <- Risor %>% rename(Depth_ft = Depth..ft., SL_mm = SL..mm., TL_mm = TL..mm.) #rename cols
 
-Sponge_Fish <- Risor %>% select(FishSpecies, SpongeGenus) %>%
-  filter(FishSpecies != "xx") %>% filter(SpongeGenus != "tunicate")
-Sponge_Fish <- Sponge_Fish %>% mutate(FishSpecies=recode(FishSpecies, 
-              'Species1' = "Lineage1", 'Species2' =  "Lineage2",
-              'Species3' = "Lineage3", 'Species4' = "Lineage4",
-              'Species5' = "Lineage5", 'Species6' = "Lineage6",
-              'Species7' = "Lineage7")) %>%
-              rename(FishLineages = FishSpecies)
 
-SGenus_FSpecies <- data.frame(table(Sponge_Fish$SpongeGenus, Sponge_Fish$FishLineages))
+Sponge_Fish <- Risor %>% select(FishLineage, SpongeGenus) %>%
+  filter(FishLineage != "xx") %>% filter(SpongeGenus != "tunicate")
+
+SGenus_FSpecies <- data.frame(table(Sponge_Fish$SpongeGenus, Sponge_Fish$FishLineage))
 
 # spread data frame back into table format? 
 SG_FS <- spread(data = SGenus_FSpecies, Var2, Freq)
