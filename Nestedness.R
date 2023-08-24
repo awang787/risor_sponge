@@ -6,11 +6,11 @@ library(patchwork)
 # loading dataset 
 Risor <- read.csv("data/Risor_Master.csv", fileEncoding="UTF-8-BOM") # read file in without adding random "." in front of column 1
 Risor <- Risor %>% rename(Depth_ft = Depth..ft., SL_mm = SL..mm., TL_mm = TL..mm.) #rename cols
-a <- Risor %>% filter(FishSpecies != "xx") %>% filter(SpongeGenus != "tunicate")
+a <- Risor %>% filter(FishLineage != "na") %>% filter(SpongeGenus != "tunicate")
 
 # create binary matrix 
 bin.mat <- function(x){
-  mat <- spread(data.frame(table(x$SpongeGenus, x$FishSpecies)), Var2, Freq)
+  mat <- spread(data.frame(table(x$SpongeGenus, x$FishLineage)), Var2, Freq)
   rownames(mat) <- mat$Var1
   mat <- as.matrix(mat[-1])
   mat <- ifelse(mat != 0,1,0)

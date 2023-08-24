@@ -1,7 +1,7 @@
 library(tidyverse)
 library(bipartite)
 
-Risor <- read.csv("data/Risor_Master.csv", fileEncoding="UTF-8-BOM") # read file in without adding random "." in front of column 1
+Risor <- read.csv("data/Risor_Master.csv", fileEncoding="UTF-8-BOM") 
 Risor <- Risor %>% rename(Depth_ft = Depth..ft., SL_mm = SL..mm., TL_mm = TL..mm.) #rename cols
 
 m <- Risor %>% select(Country, FishSpecies, SpongeID, SpongeGenus) %>%
