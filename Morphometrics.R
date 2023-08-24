@@ -39,8 +39,8 @@ pca.ggplot.scales <- ggplot(data = scales_scores, aes(x = PC1, y = PC2)) +
   theme(text = element_text(size = 16)) +
   theme(legend.position = "top") +
   labs(color = expression(~italic("Risor")~ "lineages")) +
-  xlab("PC1 (28.67%)") + 
-  ylab("PC2 (21.64%)") 
+  xlab("PC1 (25.92%)") + 
+  ylab("PC2 (21.65%)") 
 
 pca.ggplot.scales
 #ggsave("figures/pca_scales.pdf", width = 8, height = 8)
@@ -74,8 +74,8 @@ pca.ggplot.sponge <- ggplot(data = sponge_scores, aes(x = PC1, y = PC2)) +
   theme(legend.text = element_text(face='italic')) +
   theme(legend.position = "top") +
   labs(color = expression("Sponge Genera")) +
-  xlab("PC1 (28.49%)") + 
-  ylab("PC2 (20.93%)") 
+  xlab("PC1 (27.04%)") + 
+  ylab("PC2 (21.59%)") 
 
 pca.ggplot.sponge
 #ggsave("figures/pca_sponge.pdf", width = 8, height = 8)

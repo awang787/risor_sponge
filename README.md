@@ -4,6 +4,4 @@ This dataset contains sponge association and morphological data for Risor specim
 ## Data and file structure
 The "Risor_Master" file contains metadata regarding each Risor specimen, including the lineage and sponge host of each. Association between Risor lineages and sponge hosts can be analyzed by selecting these two columns out of this data file and producing a table. 
 
-The "Risor.Scale.and.Morphs" file contains morphological measurements and scale counts of Risor specimens. Analysis of certain morphological traits in Risor can be performed using this file. 
-
-The "ScaleSpongeCombined_update" file adds the sponge host of each specimen in the "Risor.Scale.and.Morphs" file, if applicable. Analyzing morphological traits but grouping information via type of sponge host can be performed using this file. 
+The "Risor_Morphology" file contains morphological measurements and scale counts of Risor specimens. Analysis of certain morphological traits in Risor, grouped by fish lineage or sponge host, can be performed using this file. 
